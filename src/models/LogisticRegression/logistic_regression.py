@@ -20,7 +20,7 @@ def calc_mean_auc(auc_scores):
 
 
 if __name__ == '__main__':
-	X, y, sample_names, _ = load_dataset()
+	X, y, sample_names, _, ADRs = load_dataset()
 	kf = KFold(n_splits=3)
 	
 	auc_scores = dict()
@@ -35,7 +35,7 @@ if __name__ == '__main__':
 		for i in range(y.shape[1]):
 		    if np.sum(y_train[:,i]) >= prune_count and np.sum(y_test[:,i]) >= prune_count:
 		        label_indexes.append(i)
-	
+
 		y_train = y_train[:, label_indexes]
 		y_test = y_test[:, label_indexes]	
 		clf = OneVsRestClassifier(LogisticRegression(C=1e5, class_weight="balanced"), n_jobs=32)
@@ -45,9 +45,10 @@ if __name__ == '__main__':
 		scores = roc_auc_score(y_test, y_probs, average=None)
 		
 		for i, label_index in enumerate(label_indexes):
-			if label_index not in auc_scores:	
-				auc_scores[label_index] = []
-			auc_scores[label_index].append(scores[i])
+			side_effect = ADRs[label_index]
+			if side_effect not in auc_scores:	
+				auc_scores[side_effect] = []
+			auc_scores[side_effect].append(scores[i])
 			
 	mean_auc_scores = calc_mean_auc(auc_scores)
 	sorted_means = sorted(mean_auc_scores, key=mean_auc_scores.get, reverse=True)

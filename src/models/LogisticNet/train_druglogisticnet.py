@@ -26,7 +26,7 @@ def probs_to_dict(y_pred, outputs):
 	return prob_classes
 
 if __name__ == '__main__':
-	X, y, sample_names, _ = load_dataset()
+	X, y, sample_names, _, ADRs = load_dataset()
 	kf = KFold(n_splits=3)
 	
 	auc_scores = dict()
@@ -47,7 +47,7 @@ if __name__ == '__main__':
 		
 		output_names = []
 		for i in label_indexes:
-			output_names.append('class_'+str(i))
+			output_names.append(ADRs[i])
 			
 		y_train_dict = dict()
 		y_test_dict = dict()
