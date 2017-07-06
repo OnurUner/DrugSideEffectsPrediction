@@ -11,47 +11,6 @@ from sklearn.model_selection import KFold
 from sklearn.metrics import roc_auc_score
 
 prune_count = 1
-#results_path = "./results/evaluation_30epoch.mat"
-
-#def run():
-#	x_train, y_train, train_rows, x_test, y_test, test_rows, label_indexes = get_train_test_set(validation_rate=0.33, prune_count=1)
-#	input_shape = (x_train.shape[1],)
-#	output_shape = y_train.shape[1]
-#	output_names = []
-#	for i in label_indexes:
-#		output_names.append('class_'+str(i))
-#	 
-#	drugnet = DrugLogisticNet(input_shape=input_shape, output_shape=output_shape, output_names=output_names)
-#	print(datetime.now().strftime('%Y-%m-%d %H:%M:%S'))
-#	
-#	print "Model creating..."
-#	drugnet.create_model()
-#	print(datetime.now().strftime('%Y-%m-%d %H:%M:%S'))
-#	
-#	print "Model start to train..."
-#	drugnet.fit(x_train, y_train, epochs=100, is_balanced=True)
-#	print(datetime.now().strftime('%Y-%m-%d %H:%M:%S'))
-#
-#	print "Model saving..."
-#	drugnet.save_model()
-#	
-#	print "Model evaluation..."
-#	metrics_names, scores = drugnet.evaluate(x_test, y_test, batch_size=237)
-#	y_pred_prob = drugnet.predict(x_test)
-#
-#	y_pred = np.array(y_pred_prob)
-#	y_pred[y_pred>=0.5] = 1
-#	y_pred[y_pred<0.5] = 0
-#
-#	mat_dict = dict()
-#	mat_dict["scores"] = scores
-#	mat_dict["metrics_names"] = metrics_names
-#	mat_dict["y_pred_prob"] = y_pred_prob
-#	mat_dict["y_pred"] = y_pred
-#	mat_dict["y_true"] = y_test
-#	scipy.io.savemat(results_path, mdict=mat_dict)
-#	print "Finished"
-#	print(datetime.now().strftime('%Y-%m-%d %H:%M:%S'))
 
 def calc_mean_auc(auc_scores):
 	mean_auc_scores = dict()
