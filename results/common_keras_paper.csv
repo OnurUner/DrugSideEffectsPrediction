@@ -1,0 +1,3 @@
+ADR name,Keras Mean AUC,Paper Mean AUC
+Alkalosis_hypokalaemic,0.658439651879,0.9741
+Oesophagitis_ulcerative,0.429122636359,0.9343

@@ -2,7 +2,9 @@
 # -*- coding: utf-8 -*-
 import sys
 import numpy as np
+import os
 sys.path.append('../../data/')
+
 import scipy.io
 from make_dataset import load_dataset
 from datetime import datetime
@@ -11,6 +13,8 @@ from sklearn.model_selection import KFold
 from sklearn.metrics import roc_auc_score
 
 prune_count = 1
+current_path = os.path.dirname(os.path.realpath(__file__))
+result_path = current_path + '/../../../results/keras_logistic_regression_results.txt'
 
 def calc_mean_auc(auc_scores):
 	mean_auc_scores = dict()
@@ -26,7 +30,7 @@ def probs_to_dict(y_pred, outputs):
 	return prob_classes
 
 if __name__ == '__main__':
-	X, y, sample_names, _, ADRs = load_dataset()
+	X, y, sample_names, _, ADRs = load_dataset(prune_count=50)
 	kf = KFold(n_splits=3)
 	
 	auc_scores = dict()
@@ -47,7 +51,7 @@ if __name__ == '__main__':
 		
 		output_names = []
 		for i in label_indexes:
-			output_names.append(ADRs[i])
+			output_names.append(str(i))
 			
 		y_train_dict = dict()
 		y_test_dict = dict()
@@ -67,15 +71,16 @@ if __name__ == '__main__':
 			t_y = y_test_dict[out_name]
 			p_y = y_probs_dict[out_name]
 			score = roc_auc_score(t_y, p_y, average=None)
-			if out_name not in auc_scores:	
-				auc_scores[out_name] = []
-			auc_scores[out_name].append(score)
-		
-		del net.model
-		del net
+			side_effect = ADRs[int(out_name)]
+			if side_effect not in auc_scores:	
+				auc_scores[side_effect] = []
+			auc_scores[side_effect].append(score)
 		
 	mean_auc_scores = calc_mean_auc(auc_scores)
 	sorted_means = sorted(mean_auc_scores, key=mean_auc_scores.get, reverse=True)
 	
-	for i in sorted_means[:5]:
-		print i, mean_auc_scores[i]
+	file = open(result_path, "w")
+	for i in sorted_means:
+		file.write(str(i) + " " + str(mean_auc_scores[i]) + "\n")
+		
+	file.close()

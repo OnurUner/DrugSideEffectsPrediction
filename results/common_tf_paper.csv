@@ -1,0 +1,14 @@
+ADR name,Tensorflow Mean AUC,Paper Mean AUC
+Pseudomembranous_colitis,0.841313862505,0.9297
+Alkalosis_hypokalaemic,0.692919367557,0.9741
+Cushingoid,0.686371678625,0.9001
+Skin_atrophy,0.58869376134,0.9429
+Myocardial_rupture,0.554542903859,0.9716
+Cushing's_syndrome,0.53878538172,0.9944
+Nasal_septum_perforation,0.517828448679,0.9055
+Dermatitis_acneiform,0.517389632253,0.9606
+Muscle_mass,0.45454025454,0.9732
+Oesophagitis_ulcerative,0.436679324443,0.9343
+Compression_fracture,0.370229007634,0.9597
+Fat_embolism,0.325506516144,0.9677
+Nitrogen_balance_negative,0.0824359755803,0.9586

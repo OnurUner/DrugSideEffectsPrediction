@@ -1,0 +1,14 @@
+ADR name,Scikit-Learn Mean AUC,Paper Mean AUC
+Pseudomembranous_colitis,0.780393393078,0.9297
+Myocardial_rupture,0.75628634178,0.9716
+Cushingoid,0.704232649146,0.9001
+Skin_atrophy,0.643344099599,0.9429
+Alkalosis_hypokalaemic,0.618422769609,0.9741
+Cushing's_syndrome,0.610963319037,0.9944
+Oesophagitis_ulcerative,0.464994832794,0.9343
+Muscle_mass,0.460491388398,0.9732
+Compression_fracture,0.426208651399,0.9597
+Nasal_septum_perforation,0.418584816957,0.9055
+Dermatitis_acneiform,0.358198124982,0.9606
+Fat_embolism,0.30727717612,0.9677
+Nitrogen_balance_negative,0.120705502182,0.9586

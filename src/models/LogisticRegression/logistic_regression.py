@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 import sys
 import numpy as np
+import os
 sys.path.append('../../data/')
 
 from sklearn.linear_model import LogisticRegression
@@ -11,6 +12,8 @@ from sklearn.metrics import roc_auc_score
 from sklearn.model_selection import KFold
 
 prune_count = 1
+current_path = os.path.dirname(os.path.realpath(__file__))
+result_path = current_path + '/../../../results/logistic_regression_results.txt'
 
 def calc_mean_auc(auc_scores):
 	mean_auc_scores = dict()
@@ -53,6 +56,8 @@ if __name__ == '__main__':
 	mean_auc_scores = calc_mean_auc(auc_scores)
 	sorted_means = sorted(mean_auc_scores, key=mean_auc_scores.get, reverse=True)
 	
-	for i in sorted_means[:100]:
-		print i, mean_auc_scores[i]
+	file = open(result_path, "w")
+	for i in sorted_means:
+		file.write(str(i) + " " + str(mean_auc_scores[i]) + "\n")
+	file.close()
 		
