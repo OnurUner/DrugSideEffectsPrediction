@@ -1,14 +1,14 @@
-ADR name,Tensorflow Mean AUC,Paper Mean AUC
-Pseudomembranous_colitis,0.841313862505,0.9297
-Alkalosis_hypokalaemic,0.692919367557,0.9741
-Cushingoid,0.686371678625,0.9001
-Skin_atrophy,0.58869376134,0.9429
-Myocardial_rupture,0.554542903859,0.9716
-Cushing's_syndrome,0.53878538172,0.9944
-Nasal_septum_perforation,0.517828448679,0.9055
-Dermatitis_acneiform,0.517389632253,0.9606
-Muscle_mass,0.45454025454,0.9732
-Oesophagitis_ulcerative,0.436679324443,0.9343
-Compression_fracture,0.370229007634,0.9597
-Fat_embolism,0.325506516144,0.9677
-Nitrogen_balance_negative,0.0824359755803,0.9586
+ADR name,Tensorflow Mean AUC,Paper Mean AUC,Positive Count
+Pseudomembranous_colitis,0.841313862505,0.9297,5.0
+Alkalosis_hypokalaemic,0.692919367557,0.9741,62.0
+Cushingoid,0.686371678625,0.9001,41.0
+Skin_atrophy,0.58869376134,0.9429,43.0
+Myocardial_rupture,0.554542903859,0.9716,3.0
+Cushing's_syndrome,0.53878538172,0.9944,6.0
+Nasal_septum_perforation,0.517828448679,0.9055,24.0
+Dermatitis_acneiform,0.517389632253,0.9606,3.0
+Muscle_mass,0.45454025454,0.9732,15.0
+Oesophagitis_ulcerative,0.436679324443,0.9343,98.0
+Compression_fracture,0.370229007634,0.9597,5.0
+Fat_embolism,0.325506516144,0.9677,15.0
+Nitrogen_balance_negative,0.0824359755803,0.9586,3.0
