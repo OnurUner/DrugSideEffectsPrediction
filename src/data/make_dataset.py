@@ -18,7 +18,7 @@ def load_data_csv(csv_path, delimiter=','):
 
 def load_label_csv(csv_path, delimiter=','):
 	row_names = genfromtxt(csv_path, delimiter=delimiter, usecols=(0), skip_header=1, dtype=str)
-	labels = genfromtxt(csv_path, delimiter=delimiter, usecols=range(1, 3166), skip_header=1)
+	labels = genfromtxt(csv_path, delimiter=delimiter, usecols=range(1, 3166), skip_header=1, dtype=float)
 	side_effect_names = genfromtxt(csv_path, delimiter=delimiter, usecols=range(1, 3166), max_rows=1, dtype=str)
 	for i, name in enumerate(side_effect_names):
 		side_effect_names[i] = name.replace(' ', '_')
@@ -64,7 +64,7 @@ def get_train_test_set(validation_rate=0.3, prune_count=None):
 	Y_test = Y_test[:, label_indexes]
 	ADRs = np.array(ADRs)[label_indexes]
 	
-	return X_train, Y_train, train_rows, X_test, Y_test, test_rows, label_indexes, ADRs 
+	return X_train, Y_train, train_rows, X_test, Y_test, test_rows, label_indexes, ADRs
 
 def load_dataset(prune_count=None):
 	drug_names_data, data = load_data_csv(input_path)
