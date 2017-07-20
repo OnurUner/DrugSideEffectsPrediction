@@ -21,7 +21,7 @@ def calc_mean_auc(auc_scores):
 	return mean_auc_scores
 
 if __name__ == '__main__':
-	X, y, sample_names, _, ADRs = load_dataset()
+	X, y, sample_names, _, ADRs = load_dataset(prune_count=11)
 	kf = KFold(n_splits=3)
 	
 	auc_scores = dict()

@@ -34,7 +34,7 @@ def list_to_nparray(y):
 	return np.column_stack(t_y)
 
 if __name__ == '__main__':
-	X, y, sample_names, _, ADRs = load_dataset()
+	X, y, sample_names, _, ADRs = load_dataset(prune_count=11)
 	kf = KFold(n_splits=3)
 	
 	auc_scores = dict()

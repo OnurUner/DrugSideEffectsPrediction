@@ -98,6 +98,6 @@ def binary_classifier(X, y, sample_names, ADRs, split_count):
 
 if __name__ == '__main__':
 	n_split = 3
-	X, y, sample_names, _, ADRs = load_dataset(prune_count=n_split)
+	X, y, sample_names, _, ADRs = load_dataset(prune_count=11)
 	binary_classifier(X, y, sample_names, ADRs, n_split)
 	multilabel_classifier(X, y, sample_names, ADRs, n_split)
