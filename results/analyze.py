@@ -222,3 +222,13 @@ if __name__ == '__main__':
 			pos_count_index = pos_counts_adr_names.index(adr_name)
 			writer.writerow((adr_name, ovr_mean_auc[i], is_ovr_mean_auc[is_ovr_adr_names.index(adr_name)], pos_counts[pos_count_index]))	
 	ofile.close()
+	
+	# TF_IS VS WEB
+	ofile  = open('common_tf_is_web.csv', "w")
+	writer = csv.writer(ofile, delimiter=',')
+	writer.writerow( ('ADR name', 'TF IS Mean AUC', 'TF SOIS Mean AUC', 'Positive Count') )
+	for i, adr_name in enumerate(tf_is_adr_names):
+		if adr_name in web_all_adr_names:
+			pos_count_index = pos_counts_adr_names.index(adr_name)
+			writer.writerow((adr_name, tf_is_mean_auc[i],  web_all_mean_auc[web_all_adr_names.index(adr_name)], pos_counts[pos_count_index]))
+	ofile.close()	
