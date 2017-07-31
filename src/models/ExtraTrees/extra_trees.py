@@ -4,28 +4,19 @@ import sys
 import numpy as np
 import os
 sys.path.append('../../data/')
+sys.path.append('../../utils/')
 
 from make_dataset import load_dataset
 from sklearn.ensemble import ExtraTreesClassifier
 from sklearn.metrics import roc_auc_score
 from sklearn.model_selection import KFold
+from utility import save_mean_auc
 
 prune_count = 1
 
 current_path = os.path.dirname(os.path.realpath(__file__))
 extra_trees_result_path = current_path + '/../../../results/extra_trees_results.txt'
 
-def save_mean_auc(auc_scores, save_path):
-	mean_auc_scores = dict()
-	for label_index in auc_scores:
-		mean_auc_scores[label_index] = np.mean(auc_scores[label_index])
-		
-	sorted_means = sorted(mean_auc_scores, key=mean_auc_scores.get, reverse=True)
-	
-	f = open(save_path, "w")
-	for i in sorted_means:
-		f.write(str(i) + " " + str(mean_auc_scores[i]) + "\n")
-	f.close()
 	
 def list_to_nparray(y):
 	t_y = y

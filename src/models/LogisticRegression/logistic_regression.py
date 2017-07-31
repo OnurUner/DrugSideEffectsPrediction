@@ -4,39 +4,28 @@ import sys
 import numpy as np
 import os
 sys.path.append('../../data/')
+sys.path.append('../../utils/')
 
 from sklearn.linear_model import LogisticRegression
 from sklearn.multiclass import OneVsRestClassifier
-from make_dataset import load_dataset
+from generate_folds import load_folds
 from sklearn.metrics import roc_auc_score
 from sklearn.model_selection import KFold, StratifiedKFold
+from utility import save_mean_auc, get_train_index, feature_selection
 
 prune_count = 1
 
 current_path = os.path.dirname(os.path.realpath(__file__))
-multilabel_result_path = current_path + '/../../../results/ovr_logistic_regression_results.txt'
-binary_result_path = current_path + '/../../../results/binary_logistic_regression_results.txt'
+multilabel_result_path = current_path + '/../../../results/results_filtered/is_ovr_logistic_regression_results.txt'
+binary_result_path = current_path + '/../../../results/results_filtered/binary_logistic_regression_results.txt'
 
 folds_path = current_path + '/../../log/folds/pos_sample_counts.txt'
 
-def save_mean_auc(auc_scores, save_path):
-	mean_auc_scores = dict()
-	for label_index in auc_scores:
-		mean_auc_scores[label_index] = np.mean(auc_scores[label_index])
-		
-	sorted_means = sorted(mean_auc_scores, key=mean_auc_scores.get, reverse=True)
-	
-	f = open(save_path, "w")
-	for i in sorted_means:
-		f.write(str(i) + " " + str(mean_auc_scores[i]) + "\n")
-	f.close()
 
-
-def multilabel_classifier(X, y, sample_names, ADRs, split_count):
-	kf = KFold(n_splits=split_count)
-	
+def multilabel_classifier(X, y, sample_names, ADRs, folds):
 	auc_scores = dict()
-	for train_index, test_index in kf.split(X, y):
+	for i, test_index in enumerate(folds):
+		train_index = get_train_index(folds, i)
 		x_train = X[train_index]
 		y_train = y[train_index]
 		
@@ -98,6 +87,6 @@ def binary_classifier(X, y, sample_names, ADRs, split_count):
 
 if __name__ == '__main__':
 	n_split = 3
-	X, y, sample_names, _, ADRs = load_dataset(prune_count=11)
+	X, y, sample_names, ADRs, SOIS, IS = load_folds()
 	binary_classifier(X, y, sample_names, ADRs, n_split)
-	multilabel_classifier(X, y, sample_names, ADRs, n_split)
+	multilabel_classifier(X, y, sample_names, ADRs, IS)

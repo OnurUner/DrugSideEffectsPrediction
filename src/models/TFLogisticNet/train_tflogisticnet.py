@@ -4,28 +4,25 @@ import sys
 import numpy as np
 import os
 sys.path.append('../../data/')
+sys.path.append('../../utils/')
 
-from make_dataset import load_dataset
+from generate_folds import load_folds
 from tflogisticnet import TFLogisticNet
-from sklearn.model_selection import KFold
 from sklearn.metrics import roc_auc_score
+from utility import save_mean_auc, get_train_index, feature_selection
 
 prune_count = 1
 current_path = os.path.dirname(os.path.realpath(__file__))
-result_path = current_path + '/../../../results/tf_logistic_regression_results.txt'
+result_path = current_path + '/../../../results/results_filtered/tf_logistic_regression_300feature_selected_results.txt'
 
-def calc_mean_auc(auc_scores):
-	mean_auc_scores = dict()
-	for label_index in auc_scores:
-		mean_auc_scores[label_index] = np.mean(auc_scores[label_index])
-	return mean_auc_scores
 
 if __name__ == '__main__':
-	X, y, sample_names, _, ADRs = load_dataset(prune_count=11)
-	kf = KFold(n_splits=3)
-	
+	X, y, sample_names, ADRs, SOIS, IS = load_folds()
+#	_, _, X = feature_selection(X, y, 10)
+	folds = SOIS
 	auc_scores = dict()
-	for train_index, test_index in kf.split(X, y):
+	for i, test_index in enumerate(folds):
+		train_index = get_train_index(folds, i)
 		x_train = X[train_index]
 		y_train = y[train_index]
 		
@@ -54,11 +51,4 @@ if __name__ == '__main__':
 				auc_scores[side_effect] = []
 			auc_scores[side_effect].append(scores[i])
 
-	mean_auc_scores = calc_mean_auc(auc_scores)
-	sorted_means = sorted(mean_auc_scores, key=mean_auc_scores.get, reverse=True)
-	
-	file = open(result_path, "w")
-	for i in sorted_means:
-		file.write(str(i) + " " + str(mean_auc_scores[i]) + "\n")
-		
-	file.close()
+	save_mean_auc(auc_scores, result_path)

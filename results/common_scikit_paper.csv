@@ -1,0 +1,26 @@
+ADR name,Scikit-Learn Mean AUC,Paper Mean AUC,Positive Count
+Cushing's_syndrome,0.796230326002,0.9944,12.0
+Hypertrophic_cardiomyopathy,0.789459409186,0.9274,16.0
+Fat_embolism,0.7728515625,0.9677,15.0
+Carbohydrate_tolerance_decreased,0.74206671056,0.9218,28.0
+Compression_fracture,0.719369505561,0.9597,22.0
+Skin_test_positive,0.715486654885,0.9773,21.0
+Muscle_mass,0.715486654885,0.9732,21.0
+Alkalosis_hypokalaemic,0.715486654885,0.9741,21.0
+Oesophagitis_ulcerative,0.702056205773,0.9343,26.0
+Nitrogen_balance_negative,0.701882743643,0.9586,24.0
+Myocardial_rupture,0.695943464799,0.9716,19.0
+Hyperadrenocorticism,0.679953468656,0.94,24.0
+Skin_striae,0.670659463901,0.9508,41.0
+Cataract_subcapsular,0.667069805055,0.9353,36.0
+Nasal_septum_perforation,0.663148670542,0.9055,15.0
+Dermatitis_acneiform,0.641821126209,0.9606,34.0
+Lupus_miliaris_disseminatus_faciei,0.631758755381,0.954,23.0
+Xanthopsia,0.629015688318,0.9103,14.0
+Nasal_ulcer,0.618633311947,0.9179,14.0
+Cushingoid,0.618176407921,0.9001,39.0
+Coombs_direct_test_positive,0.583422778772,0.9845,12.0
+Skin_atrophy,0.583021549732,0.9429,36.0
+Protrusion_tongue,0.560115195483,0.9725,22.0
+Superinfection,0.537823368222,0.9115,15.0
+Pseudomembranous_colitis,0.526284776019,0.9297,48.0

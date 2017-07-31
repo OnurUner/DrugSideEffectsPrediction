@@ -4,6 +4,7 @@ import sys
 import numpy as np
 import os
 sys.path.append('../../data/')
+sys.path.append('../../utils/')
 
 import scipy.io
 from make_dataset import load_dataset
@@ -11,16 +12,12 @@ from datetime import datetime
 from druglogisticnet import DrugLogisticNet
 from sklearn.model_selection import KFold
 from sklearn.metrics import roc_auc_score
+from utility import save_mean_auc
 
 prune_count = 1
 current_path = os.path.dirname(os.path.realpath(__file__))
 result_path = current_path + '/../../../results/keras_logistic_regression_results.txt'
 
-def calc_mean_auc(auc_scores):
-	mean_auc_scores = dict()
-	for label_index in auc_scores:
-		mean_auc_scores[label_index] = np.mean(auc_scores[label_index])
-	return mean_auc_scores
 
 def probs_to_dict(y_pred, outputs):
 	prob_classes = dict()
@@ -76,11 +73,4 @@ if __name__ == '__main__':
 				auc_scores[side_effect] = []
 			auc_scores[side_effect].append(score)
 		
-	mean_auc_scores = calc_mean_auc(auc_scores)
-	sorted_means = sorted(mean_auc_scores, key=mean_auc_scores.get, reverse=True)
-	
-	file = open(result_path, "w")
-	for i in sorted_means:
-		file.write(str(i) + " " + str(mean_auc_scores[i]) + "\n")
-		
-	file.close()
+	save_mean_auc(auc_scores, result_path)
