@@ -1,4 +1,4 @@
-ADR name,TF IS Mean AUC,TF SOIS Mean AUC,Positive Count
+ADR name,TF IS Mean AUC,Web Mean AUC,Positive Count
 Secondary_adrenocortical_insufficiency,0.809903279507,0.888372,12.0
 Ichthyosis,0.805073073965,0.776738,21.0
 Drug_withdrawal_syndrome,0.802717638959,0.512424,12.0

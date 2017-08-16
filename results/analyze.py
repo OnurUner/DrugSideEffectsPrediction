@@ -13,6 +13,7 @@ tf_is_logistic_regression_results_path = "./"+where+"/tf_is_logistic_regression_
 tf_sois_logistic_regression_results_path = "./"+where+"/tf_sois_logistic_regression_results.txt"
 keras_ovr_logistic_regression_results_path = "./"+where+"/keras_logistic_regression_results.txt"
 extra_tress_results_path = "./"+where+"/extra_trees_results.txt"
+random_forest_results_path = "./"+where+"/random_forest_results.txt"
 paper_results_path = "./"+where+"/paper_results.txt"
 web_all_results_path = "./"+where+"/web_auc_all.txt"
 web_filtered_results_path = "./"+where+"/web_auc.txt"
@@ -29,6 +30,7 @@ if __name__ == '__main__':
 	keras_adr_names = genfromtxt(keras_ovr_logistic_regression_results_path, delimiter=" ", usecols=(0), dtype=str).tolist()
 	binary_adr_names = genfromtxt(binary_logistic_regression_results_path, delimiter=" ", usecols=(0), dtype=str).tolist()
 	extra_trees_adr_names = genfromtxt(extra_tress_results_path, delimiter=" ", usecols=(0), dtype=str).tolist()
+	random_forest_adr_names = genfromtxt(random_forest_results_path, delimiter=" ", usecols=(0), dtype=str).tolist()
 	pos_counts_adr_names = genfromtxt(pos_count_path, delimiter=" ", usecols=(0), dtype=str).tolist()
 	web_all_adr_names = genfromtxt(web_all_results_path, delimiter=" ", usecols=(0), dtype=str).tolist()
 	web_filtered_adr_names = genfromtxt(web_all_results_path, delimiter=" ", usecols=(0), dtype=str).tolist()
@@ -42,6 +44,7 @@ if __name__ == '__main__':
 	keras_mean_auc = genfromtxt(keras_ovr_logistic_regression_results_path, delimiter=" ", usecols=(1), dtype=float).tolist()
 	binary_mean_auc = genfromtxt(binary_logistic_regression_results_path, delimiter=" ", usecols=(1), dtype=float).tolist()
 	extra_tress_mean_auc = genfromtxt(extra_tress_results_path, delimiter=" ", usecols=(1), dtype=float).tolist()
+	random_forest_mean_auc = genfromtxt(random_forest_results_path, delimiter=" ", usecols=(1), dtype=float).tolist()
 	pos_counts = genfromtxt(pos_count_path, delimiter=" ", usecols=(1), dtype=float).tolist()
 	web_all_mean_auc = genfromtxt(web_all_results_path, delimiter=" ", usecols=(1), dtype=float).tolist()
 	web_filtered_mean_auc = genfromtxt(web_filtered_results_path, delimiter=" ", usecols=(1), dtype=float).tolist()
@@ -226,9 +229,31 @@ if __name__ == '__main__':
 	# TF_IS VS WEB
 	ofile  = open('common_tf_is_web.csv', "w")
 	writer = csv.writer(ofile, delimiter=',')
-	writer.writerow( ('ADR name', 'TF IS Mean AUC', 'TF SOIS Mean AUC', 'Positive Count') )
+	writer.writerow( ('ADR name', 'TF IS Mean AUC', 'Web Mean AUC', 'Positive Count') )
 	for i, adr_name in enumerate(tf_is_adr_names):
 		if adr_name in web_all_adr_names:
 			pos_count_index = pos_counts_adr_names.index(adr_name)
 			writer.writerow((adr_name, tf_is_mean_auc[i],  web_all_mean_auc[web_all_adr_names.index(adr_name)], pos_counts[pos_count_index]))
 	ofile.close()	
+	
+	#EXTRA TREES VS WEB
+	ofile  = open('common_extratrees_web.csv', "w")
+	writer = csv.writer(ofile, delimiter=',')
+	writer.writerow( ('ADR name', 'Extra Trees Mean AUC', 'Web Mean AUC', 'Positive Count') )
+	for i, adr_name in enumerate(extra_trees_adr_names):
+		if adr_name in web_all_adr_names:
+			pos_count_index = pos_counts_adr_names.index(adr_name)
+			writer.writerow((adr_name, extra_tress_mean_auc[i], web_all_mean_auc[web_all_adr_names.index(adr_name)], pos_counts[pos_count_index]))
+	ofile.close()
+	
+	#RANDOM FOREST VS WEB
+	ofile  = open('common_randomforest_web.csv', "w")
+	writer = csv.writer(ofile, delimiter=',')
+	writer.writerow( ('ADR name', 'Random Forest Mean AUC', 'Web Mean AUC', 'Positive Count') )
+	for i, adr_name in enumerate(random_forest_adr_names):
+		if adr_name in web_all_adr_names:
+			pos_count_index = pos_counts_adr_names.index(adr_name)
+			writer.writerow((adr_name, random_forest_mean_auc[i], web_all_mean_auc[web_all_adr_names.index(adr_name)], pos_counts[pos_count_index]))
+	ofile.close()
+	
+	

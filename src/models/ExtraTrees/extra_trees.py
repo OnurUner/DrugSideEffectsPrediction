@@ -5,17 +5,17 @@ import numpy as np
 import os
 sys.path.append('../../data/')
 sys.path.append('../../utils/')
+sys.path.append('../../feature_selection/')
 
 from make_dataset import load_dataset
 from sklearn.ensemble import ExtraTreesClassifier
-from sklearn.metrics import roc_auc_score
-from sklearn.model_selection import KFold
-from utility import save_mean_auc
-
-prune_count = 1
+from sklearn.metrics import roc_auc_score, roc_curve, auc, accuracy_score
+from sklearn.model_selection import StratifiedKFold
+from utility import save_mean_auc, prob_to_pred, find_optimal_cutoff
+from select_feature import feature_selection
 
 current_path = os.path.dirname(os.path.realpath(__file__))
-extra_trees_result_path = current_path + '/../../../results/extra_trees_results.txt'
+extra_trees_result_path = current_path + '/../../../results/results_filtered/extra_trees_results_baseline.txt'
 
 	
 def list_to_nparray(y):
@@ -25,34 +25,38 @@ def list_to_nparray(y):
 	return np.column_stack(t_y)
 
 if __name__ == '__main__':
-	X, y, sample_names, _, ADRs = load_dataset(prune_count=11)
-	kf = KFold(n_splits=3)
+	feature_index = feature_selection(method="logistic", top=978)
+	X, Y, sample_names, _, ADRs = load_dataset(prune_count=11)
+	
+	kf = StratifiedKFold(n_splits=3)
 	
 	auc_scores = dict()
-	for train_index, test_index in kf.split(X, y):
-		x_train = X[train_index]
-		y_train = y[train_index]
+	for selected_label in xrange(0,Y.shape[1]):
+		if selected_label not in feature_index:
+			print "Skip label", selected_label
+			continue
 		
-		x_test = X[test_index]
-		y_test = y[test_index]
+		print "Label", selected_label
+		y = Y[:,selected_label]
+		x = X[:,feature_index[selected_label]]
 		
-		label_indexes = []
-		for i in range(y.shape[1]):
-			if np.sum(y_train[:,i]) >= prune_count and np.sum(y_test[:,i]) >= prune_count:
-				label_indexes.append(i)
+		for train_index, test_index in kf.split(x, y):
+			x_train = x[train_index]
+			y_train = y[train_index]
+			
+			x_test = x[test_index]
+			y_test = y[test_index]
+				
+			clf = ExtraTreesClassifier(n_estimators=100, class_weight="balanced")
+			clf.fit(x_train, y_train)
+			y_probs = clf.predict_proba(x_test)[:,0]
+						
+			score = roc_auc_score(y_test, y_probs, average="micro")
 
-		y_train = y_train[:, label_indexes]
-		y_test = y_test[:, label_indexes]	
-		clf = ExtraTreesClassifier(n_estimators=100, class_weight="balanced")
-		clf.fit(x_train, y_train)
-		print "Calculating"
-		y_probs = list_to_nparray(clf.predict_proba(x_test))
-		scores = roc_auc_score(y_test, y_probs, average=None)
-		
-		for i, label_index in enumerate(label_indexes):
-			side_effect = ADRs[label_index]
+
+			side_effect = ADRs[selected_label]
 			if side_effect not in auc_scores:	
 				auc_scores[side_effect] = []
-			auc_scores[side_effect].append(scores[i])
+			auc_scores[side_effect].append(score)
 			
 	save_mean_auc(auc_scores, extra_trees_result_path)
